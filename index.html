@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test app</title>
+</head>
+<body>
+    <form action="/" onsubmit="return false">
+        <label for="word">Введите слово</label>
+        <input type="text" name="word" id="word">
+
+        <label for="select">Выберите падеж</label>
+        <select name="select" id="select">
+            <option value="именительный">Именительный</option>
+            <option value="родительный">Родительный</option>
+            <option value="дательный">Дательный</option>
+            <option value="винительный">Винительный</option>
+            <option value="творительный">Творительный</option>
+            <option value="предложный">Предложный</option>
+        </select>
+        <button>Сгенерировать</button>
+    </form>
+    <div class="result">
+        <p></p>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>
