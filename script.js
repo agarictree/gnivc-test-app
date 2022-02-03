@@ -40,6 +40,14 @@ function generate(str, selected) {
         }
     }
 
+    if(val.includes("ее")) {
+        console.log(val);
+        let index = val.indexOf("ее");
+        if(index != -1) {
+            val = `${val.substring(0, index)}ей${val.substring(index + 1, val.length)}`;
+        }
+    }
+
     switch (selected) {
         case "именительный":
             return str;
@@ -186,6 +194,10 @@ function generate(str, selected) {
                 if(val == "козл"||val == "льв"||val == "льн") {
                     return val + "а";
                 }
+                if(val.includes("ец") && val.length > 4 && val !== "наглец") {
+                    let index = val.indexOf("ец");
+                    return val.substring(0, index) + "ца"
+                }
                 if(val == "льд") {
                     return "лёд";
                 }
@@ -234,6 +246,10 @@ function generate(str, selected) {
                 if(lastIndex == "й") {
                     return val.substring(0, val.length - 1) + "ем";
                 }
+                if(val.includes("ец") && val.length > 4 && val !== "наглец") {
+                    let index = val.indexOf("ец");
+                    return val.substring(0, index) + "цем";
+                }
                 return val + "ом";
             }
         case "предложный":
@@ -278,6 +294,11 @@ function generate(str, selected) {
                 if(lastIndex == "й") {
                     return val.substring(0, val.length - 1) + "е";
                 }
+                if(val.includes("ец") && val.length > 4 && val !== "наглец") {
+                    let index = val.indexOf("ец");
+                    return val.substring(0, index) + "це"
+                }
+                
                 return val + "е";
             }
         default:
