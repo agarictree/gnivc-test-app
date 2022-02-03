@@ -2,18 +2,19 @@ let input = document.querySelector("#word");
 let select = document.querySelector("#select");
 let button = document.querySelector("form button");
 let resultBlock = document.querySelector(".result p");
+let form = document.forms[0];
 
 let vowel = ["а", "е", "ё", "и", "о", "у", "и", "ы", "э", "ю", "я"];
 let nonvowel = ["б", "в", "г", "д", "з", "й", "к", "л", "м", "н", "п", "p", "с", "т", "ф", "х", "ц", "ч", "ь"];
 
 function checkString(str) {
-    let regexp = /^[а-яА-Я]+$/gi;
+    let regexp = /^[а-яА-ЯёЁйЙъЪьЬ]+$/gi;
     return regexp.test(str);
 }
 
-function generate(val) {
+function generate(str, selected) {
+    let val = str.toLowerCase();
     let arrFromStr = val.split("");
-    let selected = select.value;
 
     let lastIndex = val[val.length - 1];
     let vowelIndex = vowel.includes(lastIndex);
@@ -28,7 +29,7 @@ function generate(val) {
         let index = arrFromStr.indexOf("е");
         val = `${val.substring(0, index)}ь${val.substring(index + 1, val.length)}`;
     }
-    if(arrFromStr.includes("ё")) {
+    if(val.includes("ё")) {
         let index = arrFromStr.indexOf("ё");
         if(index != -1) {
             if(val == "лёд"||val == "лён"||val == "котёл") {
@@ -41,7 +42,7 @@ function generate(val) {
 
     switch (selected) {
         case "именительный":
-            return val;
+            return str;
         case "родительный":
                 if(vowelIndex) {
                     if(lastIndex == "я") {
@@ -66,7 +67,7 @@ function generate(val) {
                         return val.substring(0, val.length - 1) + "ов";
                     }
                     if(lastIndex == "у") {
-                        return val;
+                        return str;
                     }
                 }
 
@@ -120,8 +121,9 @@ function generate(val) {
                 }
 
                 if(lastIndex == "у") {
-                    return val;
+                    return str;
                 }
+            }
 
                 if(nonWovelIndex) {
 
@@ -138,7 +140,7 @@ function generate(val) {
                     if(lastIndex == "й") {
                         return val.substring(0, val.length - 1) + "ю";
                     } else {
-                        if(val == "лев") {
+                        if(val == "лев"||val == "лёд") {
                             let index = arrFromStr.indexOf("е");
                             val = `${val.substring(0, index)}ь${val.substring(index + 1, val.length)}`;
                         }
@@ -149,7 +151,6 @@ function generate(val) {
                         return val + "у";
                     }
                 }
-            }
         case "винительный":
             if(vowelIndex) {
                 if(lastIndex == "а") {
@@ -159,18 +160,18 @@ function generate(val) {
                     return val.substring(0, val.length - 1) + "ю";
                 }
                 if(lastIndex == "о") {
-                    return val;
+                    return str;
                 }
                 if(lastIndex == "е") {
-                    return val;
+                    return str;
                 }
 
                 if(lastIndex == "и") {
-                    return val;
+                    return str;
                 }
 
                 if(lastIndex == "у") {
-                    return val;
+                    return str;
                 }
             }
 
@@ -188,7 +189,7 @@ function generate(val) {
                 if(val == "льд") {
                     return "лёд";
                 }
-                return val;
+                return str;
             }
         case "творительный":
             if(vowelIndex) {
@@ -202,7 +203,6 @@ function generate(val) {
                         if(val[val.length - 2] == "и") {
                             return val.substring(0, val.length - 1) + "ей";
                         }
-                    console.log(val.substring(0, val.length - 1) + "ю");
                     return val.substring(0, val.length - 1) + "ю";
                 }
                 if(lastIndex == "о") {
@@ -217,7 +217,7 @@ function generate(val) {
                 }
 
                 if(lastIndex == "у") {
-                    return val;
+                    return str;
                 }
             }
             if(nonWovelIndex) {
@@ -252,7 +252,7 @@ function generate(val) {
                         return val.substring(0, val.length - 1) + "е";
                     }
                     if(lastIndex == "е") {
-                        return val;
+                        return str;
                     }
     
                     if(lastIndex == "и") {
@@ -260,7 +260,7 @@ function generate(val) {
                     }
     
                     if(lastIndex == "у") {
-                        return val;
+                        return str;
                     }
                 }
             }
@@ -281,13 +281,14 @@ function generate(val) {
                 return val + "е";
             }
         default:
-            break;
+            return str;
     }
 }
 
 function appendHandler(e) {
-    let result = generate(input.value);
+    e.preventDefault();
+    let result = generate(input.value, e.target.select.value);
     resultBlock.textContent = result;
 }
 
-button.addEventListener("click", appendHandler);
+form.addEventListener("submit", appendHandler);
